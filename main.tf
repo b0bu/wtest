@@ -14,5 +14,11 @@ resource "azurerm_linux_web_app" "gowtest" {
 
   site_config {
     always_on = false
+    application_stack {
+      docker_image_name        = "gowtest:0.0.1"
+      docker_registry_url      = "registry.hub.docker.com"
+      docker_registry_username = "maclighiche"
+      docker_registry_password = var.docker_registry_password
+    }
   }
 }

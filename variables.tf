@@ -9,3 +9,7 @@ variable "tenant_id" {
 variable "resource_group_name" {
   type = string
 }
+
+variable "docker_registry_password" {
+  type = string
+}

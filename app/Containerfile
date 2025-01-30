@@ -1,0 +1,15 @@
+# syntax=docker/dockerfile:1
+
+FROM golang:1.21.6
+
+WORKDIR /app
+
+COPY go.mod ./
+COPY edit.html view.html ./
+COPY *.go ./
+
+RUN CGO_ENABLED=0 GOOS=linux go build -o /gowtest
+
+EXPOSE 8080
+
+CMD ["/gowtest"]
