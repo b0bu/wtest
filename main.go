@@ -23,7 +23,7 @@ func (p *Page) save() error {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+	fmt.Fprintf(w, "caught by default! %s", r.URL.Path[1:])
 }
 
 func loadPage(title string) (*Page, error) {
