@@ -12,6 +12,10 @@ resource "azurerm_linux_web_app" "gowtest" {
   location            = "uksouth"
   service_plan_id     = azurerm_service_plan.gowtest.id
 
+  #   app_settings = {
+  #     WEBSITES_PORT = "8080"
+  #   }
+
   site_config {
     always_on = false
     application_stack {
