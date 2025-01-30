@@ -5,7 +5,8 @@ FROM golang:1.21.6
 WORKDIR /app
 
 COPY go.mod ./
-COPY edit.html view.html ./
+COPY data ./data
+COPY tmpl ./tmpl
 COPY *.go ./
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /gowtest
