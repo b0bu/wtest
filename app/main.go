@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -9,7 +8,10 @@ import (
 	"regexp"
 )
 
-var templates = template.Must(template.ParseFiles("edit.html", "view.html"))
+const dataPath = "data/"
+const tmplPath = "tmpl/"
+
+var templates = template.Must(template.ParseFiles(tmplPath+"edit.html", tmplPath+"view.html", tmplPath+"front.html"))
 var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 
 type Page struct {
@@ -19,16 +21,12 @@ type Page struct {
 
 func (p *Page) save() error {
 	filename := p.Title + ".txt"
-	return os.WriteFile(filename, p.Body, 0600)
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "caught by default! %s", r.URL.Path[1:])
+	return os.WriteFile(dataPath+filename, p.Body, 0600)
 }
 
 func loadPage(title string) (*Page, error) {
 	filename := title + ".txt"
-	body, err := os.ReadFile(filename)
+	body, err := os.ReadFile(dataPath + filename)
 	if err != nil {
 		return nil, err
 	}
@@ -41,6 +39,14 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func frontHandler(w http.ResponseWriter, r *http.Request, title string) {
+	p, err := loadPage(title)
+	if err != nil {
+		http.Redirect(w, r, "/view/"+title, http.StatusFound)
+	}
+	renderTemplate(w, "front", p)
 }
 
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
@@ -74,7 +80,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 	return func(w http.ResponseWriter, r *http.Request) {
 		m := validPath.FindStringSubmatch(r.URL.Path)
 		if m == nil {
-			http.NotFound(w, r)
+			http.Redirect(w, r, "/view/front", http.StatusFound)
 			return
 		}
 		fn(w, r, m[2]) // the title is the second subexpression
@@ -82,10 +88,10 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 }
 
 func main() {
-	p := Page{Title: "yolo", Body: []byte("hello world")}
+	p := Page{Title: "front", Body: []byte("hello world")}
 	p.save()
 
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/", makeHandler(frontHandler))
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
