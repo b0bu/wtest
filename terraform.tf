@@ -16,6 +16,7 @@ terraform {
 
 provider "azurerm" {
   features {}
-  tenant_id       = var.tenant_id
-  subscription_id = var.subscription_id
+  resource_providers_to_register = ["Microsoft.ServiceLinker"]
+  tenant_id                      = var.tenant_id
+  subscription_id                = var.subscription_id
 }
