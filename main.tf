@@ -1,3 +1,7 @@
+data "external" "version" {
+  program = ["bash", "${path.module}/version.sh"]
+}
+
 resource "azurerm_service_plan" "gowtest" {
   name                = "gowtest"
   location            = "uksouth"
@@ -19,7 +23,7 @@ resource "azurerm_linux_web_app" "gowtest" {
   site_config {
     always_on = false
     application_stack {
-      docker_image_name        = "gowtest:0.0.1"
+      docker_image_name        = "gowtest:${data.external.version.result["sha"]}"
       docker_registry_url      = "https://index.docker.io"
       docker_registry_username = var.docker_registry_username
       docker_registry_password = var.docker_registry_password

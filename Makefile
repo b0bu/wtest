@@ -1,6 +1,5 @@
 APPLICATION_NAME ?= gowtest
 DOCKER_USERNAME ?= maclighiche
-VERSION ?= 0.0.2
 GIT_HASH ?= $(shell git log --format="%h" -n 1)
  
 build:

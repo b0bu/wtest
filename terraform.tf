@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 4.0"
     }
+    external = {
+      source  = "hashicorp/external"
+      version = "2.3.4"
+    }
   }
   backend "azurerm" {
     resource_group_name  = var.resource_group_name
@@ -20,3 +24,5 @@ provider "azurerm" {
   tenant_id                      = var.tenant_id
   subscription_id                = var.subscription_id
 }
+
+provider "external" {}
