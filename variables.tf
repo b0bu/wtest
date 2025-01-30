@@ -11,7 +11,8 @@ variable "resource_group_name" {
 }
 
 variable "docker_registry_password" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "docker_registry_username" {
