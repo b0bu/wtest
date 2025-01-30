@@ -13,3 +13,7 @@ variable "resource_group_name" {
 variable "docker_registry_password" {
   type = string
 }
+
+variable "docker_registry_username" {
+  type = string
+}
