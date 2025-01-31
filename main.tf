@@ -59,4 +59,23 @@ resource "azurerm_monitor_diagnostic_setting" "gowtest" {
   enabled_log {
     category = "AppServiceAppLogs"
   }
+
+  enabled_log {
+    category = "AppServiceAuditLogs"
+  }
+  enabled_log {
+    category = "AppServiceAuthenticationLogs"
+  }
+  enabled_log {
+    category = "AppServiceConsoleLogs"
+  }
+  enabled_log {
+    category = "AppServiceIPSecAuditLogs"
+  }
+  enabled_log {
+    category = "AppServiceHTTPLogs"
+  }
+  enabled_log {
+    category = "AppServicePlatformLogs"
+  }
 }
