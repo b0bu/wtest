@@ -26,3 +26,20 @@ nerdctl run -p 8080:8080 -it --rm --entrypoint "/bin/bash" --name gowtest <user>
 useful on free plan check cpu consumed by the web app where sub_id is given as tf output
 ```
 az monitor metrics list --resource "/subscriptions/0c0e5228-4139-4cc4-bfc0-8601fb17134a/resourceGroups/aspgowtestwebapp/providers/Microsoft.Web/sites/gowtest" --metric CPUTime --interval PT1H --query "value[0].timeseries[0].data[0].total"```
+
+#### requirements
+create a `terraform.tfvars` file with the following variables
+```hcl
+subscription_id          = ""
+tenant_id                = ""
+resource_group_name      = ""
+docker_registry_password = ""
+docker_registry_username = ""
+```
+create a `backend.conf` file with the following varables
+```hcl
+resource_group_name    = ""
+storage_account_name   = ""
+subscription_id        = ""
+tenant_id              = ""
+```
