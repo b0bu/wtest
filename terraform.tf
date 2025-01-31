@@ -12,6 +12,10 @@ terraform {
       source  = "hashicorp/time"
       version = "0.12.1"
     }
+    http = {
+      source  = "hashicorp/http"
+      version = "3.4.5"
+    }
   }
   backend "azurerm" {
     resource_group_name  = var.resource_group_name
@@ -31,3 +35,4 @@ provider "azurerm" {
 
 provider "external" {}
 provider "time" {}
+provider "http" {}

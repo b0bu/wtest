@@ -4,8 +4,12 @@ data "azurerm_resource_group" "rg" {
   name = var.resource_group_name
 }
 
-data "external" "version" {
-  program = ["bash", "${path.module}/scripts/version.sh"]
+data "http" "docker_io" {
+  url = "https://hub.docker.com/v2/namespaces/${var.docker_registry_username}/repositories/gowtest/tags?page_size=100"
+}
+
+resource "terraform_data" "image_tag" {
+  input = jsondecode(data.http.docker_io.response_body).results[0].name
 }
 
 resource "azurerm_service_plan" "gowtest" {
@@ -22,14 +26,14 @@ resource "azurerm_linux_web_app" "gowtest" {
   location            = "uksouth"
   service_plan_id     = azurerm_service_plan.gowtest.id
 
-  #   app_settings = {
-  #     WEBSITES_PORT = "8080"
-  #   }
+  app_settings = {
+    WEBSITES_PORT = "8080"
+  }
 
   site_config {
     always_on = false
     application_stack {
-      docker_image_name        = "gowtest:${data.external.version.result["sha"]}"
+      docker_image_name        = "${var.docker_registry_username}/gowtest:${terraform_data.image_tag.output}"
       docker_registry_url      = "https://index.docker.io"
       docker_registry_username = var.docker_registry_username
       docker_registry_password = var.docker_registry_password
