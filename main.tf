@@ -33,10 +33,8 @@ resource "azurerm_linux_web_app" "gowtest" {
   site_config {
     always_on = false
     application_stack {
-      docker_image_name        = "${var.docker_registry_username}/gowtest:${terraform_data.image_tag.output}"
-      docker_registry_url      = "https://index.docker.io"
-      docker_registry_username = var.docker_registry_username
-      docker_registry_password = var.docker_registry_password
+      docker_image_name   = "${var.docker_registry_username}/gowtest:${terraform_data.image_tag.output}"
+      docker_registry_url = "https://index.docker.io"
     }
   }
 }

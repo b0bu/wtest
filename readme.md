@@ -33,13 +33,13 @@ az monitor metrics list --resource "/subscriptions/0c0e5228-4139-4cc4-bfc0-8601f
 
 #### requirements
 
-create a `terraform.tfvars` file with the following variables
+create a `terraform.tfvars` file with the following variables. Including `docker_registry_` variables in the `application_stack` for the web app turns on private access to the the docker repository. Omitting them defaults to public.
 ```hcl
 subscription_id          = ""
 tenant_id                = ""
 resource_group_name      = ""
-docker_registry_password = ""
-docker_registry_username = ""
+docker_registry_password = "" (optional)
+docker_registry_username = "" (optional)
 ```
 
 create a `backend.conf` file with the following varables
