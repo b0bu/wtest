@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/external"
       version = "2.3.4"
     }
+    time = {
+      source  = "hashicorp/time"
+      version = "0.12.1"
+    }
   }
   backend "azurerm" {
     resource_group_name  = var.resource_group_name
@@ -26,3 +30,4 @@ provider "azurerm" {
 }
 
 provider "external" {}
+provider "time" {}

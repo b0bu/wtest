@@ -1,5 +1,11 @@
+data "azurerm_subscription" "current" {}
+
+data "azurerm_resource_group" "rg" {
+  name = var.resource_group_name
+}
+
 data "external" "version" {
-  program = ["bash", "${path.module}/version.sh"]
+  program = ["bash", "${path.module}/scripts/version.sh"]
 }
 
 resource "azurerm_service_plan" "gowtest" {
