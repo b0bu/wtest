@@ -1,4 +1,6 @@
-### test webapp app service
+### test webapp app service with custom containers
+
+When building on M1/M2 Mac it's important to use compile for platform amd64, this is the default when using `make release` 
 
 The terraform deploys a simple web app for the purposes of testing B2C authentication and various deployment and lifecylce patterns. In addition it deploys a buget with notifications and automation account which can toggle a policy on or off that allows or denies the creation of resources if the budget is exceeded. The idea being that of $10 reaches 100% consumption, budget action group triggers automation account which sets policy to "deny" for all resources. When the buget equals anything less that 100% realistically 80 or less the policy is updated to 'audit'.
 
