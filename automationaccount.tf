@@ -30,6 +30,35 @@ resource "azurerm_automation_runbook" "deny" {
   }
 }
 
+
+resource "azurerm_automation_webhook" "denyhook" {
+  name                    = local.deny
+  resource_group_name     = data.azurerm_resource_group.rg.name
+  automation_account_name = azurerm_automation_account.aa.name
+  expiry_time             = timeadd(time_rotating.expiry.id, "+720h")
+  enabled                 = true
+  runbook_name            = azurerm_automation_runbook.deny.name
+  parameters = {
+    input = "parameter"
+  }
+}
+
+resource "azurerm_monitor_action_group" "deny" {
+  name                = local.deny
+  resource_group_name = data.azurerm_resource_group.rg.name
+  short_name          = "deny"
+
+  automation_runbook_receiver {
+    name                    = azurerm_automation_account.aa.name
+    automation_account_id   = azurerm_automation_account.aa.id
+    runbook_name            = local.deny
+    webhook_resource_id     = azurerm_automation_webhook.denyhook.id
+    is_global_runbook       = true
+    service_uri             = azurerm_automation_webhook.denyhook.uri
+    use_common_alert_schema = true
+  }
+}
+
 resource "azurerm_automation_runbook" "allow" {
   name                    = local.allow
   location                = data.azurerm_resource_group.rg.location
@@ -53,7 +82,7 @@ resource "azurerm_automation_webhook" "allowhook" {
   name                    = local.allow
   resource_group_name     = data.azurerm_resource_group.rg.name
   automation_account_name = azurerm_automation_account.aa.name
-  expiry_time             = time_rotating.expiry.id
+  expiry_time             = timeadd(time_rotating.expiry.id, "+720h")
   enabled                 = true
   runbook_name            = azurerm_automation_runbook.allow.name
   parameters = {

@@ -9,6 +9,27 @@ resource "azurerm_consumption_budget_resource_group" "budget" {
     start_date = "2025-01-01T00:00:00Z"
   }
 
+  filter {
+    dimension {
+      name = "ResourceId"
+      values = [
+        azurerm_monitor_action_group.deny.id,
+      ]
+    }
+  }
+
+  notification {
+    enabled        = true
+    threshold      = 50
+    operator       = "EqualTo"
+    threshold_type = "Actual"
+
+    contact_roles = [
+      "Owner",
+    ]
+  }
+
+
   notification {
     enabled        = true
     threshold      = 80
@@ -29,29 +50,17 @@ resource "azurerm_consumption_budget_resource_group" "budget" {
     contact_roles = [
       "Owner",
     ]
-  } // trigger deny on resource create
-
-  # notification {
-  #   enabled        = true
-  #   threshold      = 0
-  #   operator       = "EqualTo"
-  #   threshold_type = "Actual"
-
-  #   contact_roles = [
-  #     "Owner",
-  #   ]
-  # } // trigger allow on resource create
-
+  } // deployments will be frozen
 
   notification {
     enabled        = true
-    threshold      = 110
+    threshold      = 100
     operator       = "GreaterThan"
     threshold_type = "Forecasted"
 
     contact_roles = [
       "Owner",
     ]
-  }
+  } // this may or may not be expected
 }
 
