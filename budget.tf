@@ -9,15 +9,6 @@ resource "azurerm_consumption_budget_resource_group" "budget" {
     start_date = "2025-01-01T00:00:00Z"
   }
 
-  filter {
-    dimension {
-      name = "ResourceId"
-      values = [
-        azurerm_monitor_action_group.deny.id,
-      ]
-    }
-  }
-
   notification {
     enabled        = true
     threshold      = 50
@@ -49,6 +40,10 @@ resource "azurerm_consumption_budget_resource_group" "budget" {
 
     contact_roles = [
       "Owner",
+    ]
+
+    contact_groups = [
+      azurerm_monitor_action_group.deny.id,
     ]
   } // deployments will be frozen
 
