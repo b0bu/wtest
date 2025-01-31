@@ -56,10 +56,7 @@ resource "azurerm_monitor_diagnostic_setting" "gowtest" {
   target_resource_id         = data.azurerm_monitor_diagnostic_categories.gowtest.id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.law.id
 
-  dynamic "enabled_log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.gowtest.log_category_types
-    content {
-      category = contains(local.categories, enabled_log.value) ? enabled_log.value : null
-    }
+  enabled_log {
+    category = "AppServiceAppLogs"
   }
 }
