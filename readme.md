@@ -19,3 +19,7 @@ nerdctl push <user>/gowtest:<tag>
 
 nerdctl run -p 8080:8080 -it --rm --entrypoint "/bin/bash" --name gowtest <user>/gowtest:<tag>
 ```
+useful on free plan check cpu consumed by the web app where sub_id is given as tf output
+```
+az monitor metrics list --resource "/subscriptions/<subscirption_id>/resourceGroups/aspgowtestwebapp/providers/Microsoft.Web/sites/gowtest" --metric CPUTime --interval PT1H
+```
