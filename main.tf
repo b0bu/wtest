@@ -38,3 +38,28 @@ resource "azurerm_linux_web_app" "gowtest" {
     }
   }
 }
+
+resource "azurerm_log_analytics_workspace" "law" {
+  name                = "gowtest"
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  sku                 = "PerGB2018"
+  retention_in_days   = 30
+}
+
+data "azurerm_monitor_diagnostic_categories" "gowtest" {
+  resource_id = azurerm_linux_web_app.gowtest.id
+}
+
+resource "azurerm_monitor_diagnostic_setting" "gowtest" {
+  name                       = "gowtest"
+  target_resource_id         = data.azurerm_monitor_diagnostic_categories.gowtest.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.law.id
+
+  dynamic "enabled_log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.gowtest.log_category_types
+    content {
+      category = contains(local.categories, enabled_log.value) ? enabled_log.value : null
+    }
+  }
+}
