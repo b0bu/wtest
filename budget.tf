@@ -45,7 +45,7 @@ resource "azurerm_automation_runbook" "allow" {
   }
 }
 
-resource "azurerm_role_assignment" "example" {
+resource "azurerm_role_assignment" "policy" {
   scope                = data.azurerm_subscription.current.id
   role_definition_name = "Resource Policy Contributor"
   principal_id         = azurerm_automation_account.aa.identity[0].principal_id
