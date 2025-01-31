@@ -7,10 +7,13 @@ Since there's no way to distinguish create from delete api calls via azure polic
 #### note about tagging
 
 Thankfully dockers api returns consistently ordered tags which means deploying new app service version can easily be achieved with the `http` data block. The tag is preserved in state using `terraform_data` and will only update when the tag has changed, this is assumed to be a production repo so any new version should be released. 
+
+####
+running terraform a remote backend is assumed
 ```
 terraform init -backend-config=backend.conf
 ```
-build, (see makefile)
+#### build, (see Makefile)
 ```
 nerdctl build -t <user>/gowtest app/ # Containerfile used in app/
 nerdctl run -d -p 8080:8080 --rm --name gowtest gowtest:<tag>
