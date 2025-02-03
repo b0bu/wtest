@@ -20,7 +20,7 @@ nerdpush:
 		nerdctl push ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH}
 
 dockerpush:
-		nerdctl push ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH}
+		docker push ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH}
 
 $(info Checking platform...)
 ifeq ($(PLATFORM), Darwin)
