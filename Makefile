@@ -10,10 +10,10 @@ nerdbuildarm64:
 		nerdctl build --platform arm64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} app/
 
 dockerbuildamd64:
-		docker build --platform amd64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} app/
+		docker build --platform amd64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} -f Containerfile app/
 
 dockerbuildarm64:
-		docker build --platform arm64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} app/
+		docker build --platform arm64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} -f Containerfile app/
 
 nerdpush:
 		nerdctl push ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH}
