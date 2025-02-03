@@ -5,7 +5,7 @@ on:
     branches: main
 
 jobs:
-  login:
+  docker-login:
     runs-on: ubuntu-latest
     steps:
       -
