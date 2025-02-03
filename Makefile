@@ -1,5 +1,5 @@
 APPLICATION_NAME ?= gowtest
-APPLICATION_DIR ?= app/
+APPLICATION_DIR ?= app
 DOCKERHUB_USERNAME ?= maclighiche
 GIT_HASH ?= $(shell git log --format="%h" -n 1)
 PLATFORM ?= $(shell uname -s)
