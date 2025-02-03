@@ -8,6 +8,8 @@ buildamd64:
 buildarm64:
 		nerdctl build --platform arm64 -t ${DOCKER_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} app/
 
+build: buildamd64
+
 push:
 		nerdctl push ${DOCKER_USERNAME}/${APPLICATION_NAME}:${GIT_HASH}
 
