@@ -15,6 +15,7 @@ jobs:
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: actions/checkout@v4
       -
         name: Build and Release image
         run: make release
