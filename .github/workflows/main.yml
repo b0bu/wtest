@@ -3,11 +3,11 @@ name: ci
 on:
   push:
     branches: main
-    # paths:
-    #   - app/**
+    paths:
+      - app/**
     
 jobs:
-  docker-login:
+  release-image:
     runs-on: ubuntu-latest
     environment: wtest
     steps:
