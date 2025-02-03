@@ -9,8 +9,18 @@ COPY data ./data
 COPY tmpl ./tmpl
 COPY *.go ./
 
+# ssh
+ENV SSH_PASSWD "root:Docker!"
+RUN apt-get update \
+        && apt-get install -y --no-install-recommends dialog \
+        && apt-get update \
+ && apt-get install -y --no-install-recommends openssh-server \
+ && echo "$SSH_PASSWD" | chpasswd 
+COPY sshd_config /etc/ssh/
+RUN service ssh start
+
 RUN CGO_ENABLED=0 GOOS=linux go build -o /gowtest
 
-EXPOSE 8080
+EXPOSE 8080 2222
 
 CMD ["/gowtest"]
