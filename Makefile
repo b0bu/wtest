@@ -1,19 +1,20 @@
 APPLICATION_NAME ?= gowtest
+APPLICATION_DIR ?= app/
 DOCKERHUB_USERNAME ?= maclighiche
 GIT_HASH ?= $(shell git log --format="%h" -n 1)
 PLATFORM ?= $(shell uname -s)
 
 nerdbuildamd64:
-		nerdctl build --platform amd64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} app/
+		nerdctl build --platform amd64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} ${APPLICATION_DIR}
 
 nerdbuildarm64:
-		nerdctl build --platform arm64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} app/
+		nerdctl build --platform arm64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} ${APPLICATION_DIR}
 
 dockerbuildamd64:
-		docker build --platform amd64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} -f Containerfile app/
+		docker build --platform amd64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} -f ${APPLICATION_DIR}/Containerfile ${APPLICATION_DIR}
 
 dockerbuildarm64:
-		docker build --platform arm64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} -f Containerfile app/
+		docker build --platform arm64 -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} -f ${APPLICATION_DIR}/Containerfile ${APPLICATION_DIR}
 
 nerdpush:
 		nerdctl push ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}:${GIT_HASH}
